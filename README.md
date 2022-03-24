@@ -21,3 +21,7 @@ npm run dev
 # or
 yarn dev
 ```
+
+## Study
+
+[TypeScript / 2022.03.24](docs/README.md)
