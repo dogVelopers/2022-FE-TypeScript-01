@@ -20,30 +20,33 @@ app.innerHTML = `
 
   let darkMode = localStorage.getItem('darkMode');
 
+  const SUN_UNICODE =  '&#9789';
+  const MOON_UNICODE = '&#9788';
+
   function mode(){
     // NULL이면 반환
     if(!darkButton) return;
    
-    
-    const turnOn = () => {
+    function turnOn(){
       // body에 dark 클래스 추가
       document.body.classList.add('dark');
       // 로컬스토리지에 (key=darkmode, value='on') 항목 추가
       localStorage.setItem('darkMode', 'on');
       if(!sayDayAndNight) return;
-        sayDayAndNight.innerHTML=`&#9789;`;
+        sayDayAndNight.innerHTML=SUN_UNICODE;
     }
-    const turnOff = () => {
-      // body에 dark 클래스 제거
-      document.body.classList.remove('dark');
-      // 로컬스토리지에 (key=darkmode, value='') 항목 추가(value는 공백으로)
-      localStorage.setItem('darkMode', '');
-      if(!sayDayAndNight) return;
-        sayDayAndNight.innerHTML=`&#9788;`;
+    function turnOff(){
+       // body에 dark 클래스 제거
+       document.body.classList.remove('dark');
+       // 로컬스토리지에 (key=darkmode, value='off') 
+       localStorage.setItem('darkMode', 'off');
+       if(!sayDayAndNight) return;
+         sayDayAndNight.innerHTML=MOON_UNICODE;
     }
 
     // 로컬스토리지에 다크모드가 on 이라면 turnOn() 실행
-    if(darkMode == 'on') turnOn();
+    // if(darkMode == 'on') turnOn();
+    darkMode == 'on' ? turnOn() : turnOff();
 
     darkButton.addEventListener('click', ()=>{
       // 로컬스토리지에 있는 다크모드 불러오기(클릭 전 확인)
@@ -52,15 +55,12 @@ app.innerHTML = `
       if(darkMode != 'on'){
         turnOn();
         console.log('다크모드');
-        
       // 로컬스토리지에 있는 key = darkmode가 value의 값이 'on'이 맞다면 
       } else {
         turnOff();
-        console.log('다크모드 취소');
-        
+        console.log('다크모드 취소'); 
       }
     })
-
   }
 
   mode();
