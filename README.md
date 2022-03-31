@@ -25,3 +25,9 @@ yarn dev
 ## Study
 
 [TypeScript / 2022.03.24](docs/README.md)
+
+
+
+## Result
+
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/63100352/160978486-bfc3846b-cbea-41e8-8a01-0361366563a6.gif)

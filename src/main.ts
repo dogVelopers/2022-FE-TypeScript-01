@@ -1,93 +1,44 @@
-const app = document.querySelector<HTMLDivElement>("#app")!;
+// 2022.03.31 까지 과제
+// 해당 레포를 이용해 버튼을 누르면 배경색 black, 폰트색 white로 하기
 
-app.innerHTML = `
-  <h1>Hello Dogvelopers!</h1>
-`;
+import "./index.css";
 
-// 타입 추론
-// number, string, boolean, [], {}, undefined, null
-// any, unknown, never
-// 변수 type
+const body = document.querySelector("body")!; // 느낌표로 타입을 보장한다.
+const THEME_LS = "theme";
 
-// let numbers: number[] | string[] = [1, 2, 3];
-// numbers = ["1", "2"];
-// 타입[]
+const LIGHT_THEME = "brightMode";
+const DARK_THEME = "darkMode";
 
-// 배열 type
+const CHANGE_BUTTON = ".changeButton";
 
-// interface Person {
-//   name: string;
-//   age: number;
-// }
 
-// const p1: Person = { name: "ohs", age: 123 };
+function getLSTheme() {
+  const currentTheme = localStorage.getItem(THEME_LS);
 
-// type Person = { name: string; age: number };
-// const p2: Person = { name: "ohs", age: 123 };
+  // 만약 currentTheme이 LIGHT_THEME도 아니고 DARK_THEME도 아니라면
+  if (currentTheme !== LIGHT_THEME && currentTheme !== DARK_THEME) { 
+    localStorage.setItem(THEME_LS, LIGHT_THEME); // LIGHT_THEME을 THEME_LS에 저장하고 반환한다.
+    return LIGHT_THEME;
+  }
+  return currentTheme; // currentTheme이 LIGHT_THEME이거나 DARK_THEME라면 currentTheme을 반환한다.
+}
 
-// type ColorType = string | null;
-// let color: ColorType = "asdf";
-// color = null;
-// color = 123;
+function changeTheme() {
+  const currentTheme = getLSTheme();
+  const nextTheme = currentTheme === LIGHT_THEME ? DARK_THEME : LIGHT_THEME; // 현재 theme이 LIGHT_THEME라면 DARK_THEME를, 아니라면 LIGHT_THEME
 
-// interface Person {
-//   name: string;
-// }
+  body.classList.remove(currentTheme); // 현재의 theme을 삭제한다.
+  body.classList.add(nextTheme); // nextTheme을 추가한다.
 
-// // 인터페이스 확장방법
-// // 인터페이스는 확장 결과를 캐싱한다 === 성능적 이점이 있다
-// interface SuwonPerson extends Person {
-//   addr: string;
-// }
-
-// const p2: SuwonPerson = {};
-
-// 타입 확장 방법
-// 확장을 계산할 때 재귀적으로 탐색하면서 확장한다 === 인터페이스와 비교시 성능적으로 부족하다
-// type Person = { name: string };
-// type SuwonPerson = { name: number } & Person;
-
-// interface, type
-
-// h1 생성, querySelector
-
-// generic
-// const title = document.querySelector<HTMLHeadingElement>(".title");
-// console.log(title);
-
-// if (title) {
-//   title.innerHTML = "asdf";
-// }
-
-const title = document.querySelector<HTMLHeadingElement>(".title");
-// camelCase
-const upButton = document.querySelector<HTMLButtonElement>(".up");
-
-let num = 0;
-
-const LS_NUM = "num";
-
-// localStorage.getItem
-// localStorage.setItem
+  localStorage.setItem(THEME_LS, nextTheme); // nextTheme을 THEME_LS에 저장한다.
+}
 
 function init() {
-  if (!title) return;
-  if (!upButton) return;
+  const currentTheme = getLSTheme();
+  body.classList.add(currentTheme);
 
-  const lsNum = localStorage.getItem(LS_NUM);
-  const initialNum = lsNum ? lsNum : "0";
-  title.innerHTML = initialNum;
-  num = parseInt(initialNum);
-
-  // arrow function
-  upButton.addEventListener("click", () => {
-    num += 1;
-    title.innerHTML = num.toString();
-    localStorage.setItem(LS_NUM, num.toString());
-  });
+  const themeBtn = document.querySelector<HTMLButtonElement>(CHANGE_BUTTON); // changeButton 가져온다.
+  themeBtn?.addEventListener("click", changeTheme); // themeBtn을 클릭 시 changeTheme 실행
 }
 
 init();
-
-// 다음주까지 과제
-// 해당 레포를 이용해 버튼을 누르면 배경색 black, 폰트색 white로 하기
